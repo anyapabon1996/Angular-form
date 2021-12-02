@@ -1,42 +1,23 @@
 <!-- Explicación de Animales Fantasticos -->
 <h2 class="text-center">Animales Fantásticos</h2>
 
-
 <section class="row d-flex justify-content-evenly all-images">
 
-  <div class="card" style="width: 21rem;">
-    <img src="../../assets/dragon.jpg" class="card-img-top animales-img" alt="Colacuerno Hungaro">
+  <div class="card" style="width: 21rem;" *ngFor="let animales of animals">
+    <img [src]="animales.src" class="card-img-top animales-img" [alt]="animales.alt">
     <div class="card-body">
       <h5 class="card-title text-center">¿Quién soy?</h5>
-      <p class="card-text text-center">Nativo de Hungría</p>
-    </div>
-  </div>
-
-  <div class="card" style="width: 21rem;">
-    <img src="../../assets/thestral.jpg" class="card-img-top animales-img" alt="Thestral">
-    <div class="card-body">
-      <h5 class="card-title text-center">¿Quién soy?</h5>
-      <p class="card-text text-center">Invisibles para quienes no hayan presenciado la muerte</p>
-    </div>
-  </div>
-
-
-  <div class="card" style="width: 21rem;">
-    <img src="../../assets/swooping-evil.png" class="card-img-top animales-img" alt="Swooping Evil">
-    <div class="card-body">
-      <h5 class="card-title text-center">¿Quién soy?</h5>
-      <p class="card-text text-center">Su veneno tiene propiedades olvidadizas</p>
+      <p class="card-text text-center">{{animales.pista}}</p>
     </div>
   </div>
 
 </section>
 
-
 <section class="col d-flex justify-content-evenly all-images">
 
   <form [formGroup]="formTest">
 
-    <select formControlName="answerOne" required>
+    <select formControlName="answerOne">
 
       <option selected>Selecciona una opción</option>
       <option>Fenix</option>
@@ -47,11 +28,11 @@
       <option>Colacuerno Aleman</option>
 
       <!-- No agarra, y además me bloquea la alerta del formulario3 -->
-      <!-- <div *ngIf="animalControl1.invalid && (animalControl1.dirty || animalControl1.touched)" class="alert alert-danger">
-        <div *ngIf="animalControl1.hasError('required')">
-          Debe selccionar una opción
+      <div *ngIf="formTest.controls['answerOne'].invalid && (formTest.controls['answerOne'].dirty || formTest.controls['answerOne'].touched)" class="alert alert-danger">
+        <div *ngIf="formTest.controls['answerOne'].hasError('required')">
+          El nombre es requerido
         </div>
-      </div> -->
+      </div>
 
     </select>
 
@@ -111,8 +92,14 @@
     <div class="form-group">
       <label for="answerThree">Escriba el nombre</label>
         <input type="text" class="form-control" formControlName="answerThree">
-        <div *ngIf="animalControl3.invalid && (animalControl3.dirty || animalControl3.touched)" class="alert alert-danger">
+        <!-- <div *ngIf="animalControl3.invalid && (animalControl3.dirty || animalControl3.touched)" class="alert alert-danger">
           <div *ngIf="animalControl3.hasError('required')">
+            El nombre es requerido
+          </div>
+        </div> -->
+
+        <div *ngIf="formTest3.controls['answerThree'].invalid && (formTest3.controls['answerThree'].dirty || formTest3.controls['answerThree'].touched)" class="alert alert-danger">
+          <div *ngIf="formTest3.controls['answerThree'].hasError('required')">
             El nombre es requerido
           </div>
         </div>
@@ -121,9 +108,25 @@
   </form>
 
 </section>
+
 <div class="d-flex justify-content-center">
-  <!-- <button class="btn btn-primary text-center" (click)="confirm()">Confirmar</button> -->
+  <!-- Si no responde el formulario tres, el botón no se activa -->
+  <button class="btn btn-primary text-center" (click)="confirm()" [disabled]="formTest3.invalid">Confirmar</button>
 </div>
+
+<div class="contenedor">
+  <div *ngIf="formTest3.controls['answerThree'].invalid && (formTest3.controls['answerThree'].dirty || formTest3.controls['answerThree'].touched)" class="alert alert-danger alert2">
+    <div *ngIf="formTest3.controls['answerThree'].hasError('required')">
+      El nombre es requerido en el formulario debajo del animal venenoso
+    </div>
+  </div>
+</div>
+
+<div class="contenedor2">
+  <p>Total de Respuestas Acertadas: {{answer.total}}</p>
+</div>
+
+
 
 
 
